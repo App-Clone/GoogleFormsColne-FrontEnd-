@@ -1,8 +1,15 @@
-import { Form, Container, FormGroup, Button } from "react-bootstrap";
+import { Form, Container, FormGroup, Button, FormControl } from "react-bootstrap";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 
-function Options({ option, changeHandler, keyval, type, deleterow }) {
+function Options({
+  option,
+  changeHandler,
+  keyval,
+  type,
+  deleterow,
+  canchange,
+}) {
   const [optionlabel, setOptionLabel] = useState(option);
   useEffect(() => {
     setOptionLabel(option);
@@ -21,19 +28,31 @@ function Options({ option, changeHandler, keyval, type, deleterow }) {
         <Form.Check
           type={type === "2" ? "checkbox" : "radio"}
           placeholder=""
-          label=" "
-          disabled
+          label={canchange ? "" : optionlabel}
+          disabled={canchange}
         />
-        <TextField
-          style={{ width: "80%", marginRight: "0.5rem" }}
-          id="standard-basic"
-          variant="standard"
-          value={optionlabel}
-          onChange={changehandler}
-        />
-        <Button variant="outline-danger" onClick={() => deleterow(keyval)}>
-          X
-        </Button>
+        {canchange && (
+          <FormControl
+            className="shadow-none"
+            id="ques"
+            type="text"
+            style={{ width: '80.5%'}}
+            placeholder="Option-New"
+            value={optionlabel}
+            name="groupOptions"
+            onChange={changehandler}
+          />
+        )}
+        {canchange && (
+          <Button
+            className="shadow-none"
+            style={{ border: "none" }}
+            variant="outline-danger"
+            onClick={() => canchange && deleterow(keyval)}
+          >
+            <b>X</b>
+          </Button>
+        )}
       </FormGroup>
     </Container>
   );

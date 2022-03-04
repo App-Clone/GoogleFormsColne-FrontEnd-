@@ -21,7 +21,7 @@ function Submit({ form }) {
   );
 
   return (
-    <Container>
+    <Container className="d-flex justify-content-center mb-3">
       <OverlayTrigger
         trigger="click"
         placement="right"

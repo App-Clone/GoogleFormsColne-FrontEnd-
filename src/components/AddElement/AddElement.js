@@ -8,29 +8,35 @@ import {
   Card,
 } from "react-bootstrap";
 import { useState } from "react";
-import Options from "./Options";
-import Paragraph from "./Paragraph";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
+import OptionsViewer from "../OptionsViewer/OptionsViewer";
+import './index.css';
 
-const Input = styled("input")({
-  display: "none",
-});
+// import IconButton from "@mui/material/IconButton";
+// import CameraIcon from "@mui/icons-material/Camera";
+// import { styled } from "@mui/material/styles";
+
+// const Input = styled("input")({
+//   display: "none",
+// });
 
 function AddElement(props) {
   // const [details, setDetails] = useState([]);
-  const [dropdownselected, setDropdownselected] = useState("1");
-  const [image, setImage] = useState("");
-  const [optionlabels, setOptionlabels] = useState([
-    "Option-1",
-    "Option-2",
-    "Option-3",
-  ]);
+  const [dropdownselected, setDropdownselected] = useState(
+    props.type ? props.type : "1"
+  );
+  const [question, setQuestion] = useState(
+    props.question ? props.question : ""
+  );
+  const [image, setImage] = useState(props.image ? props.image : "");
+  const [optionlabels, setOptionlabels] = useState(
+    props.options ? props.options : ["Option-1", "Option-2", "Option-3"]
+  );
+  // const [multiOptionlabels, setMultiOptionlabels] = useState(
+  //   props.options ? props.options : ["Option-1", "Option-2", "Option-3"]
+  // );
   const [focused, setFocused] = useState(false);
   const label = { inputProps: { "aria-label": "Required" } };
-
   const deleterow = (key) => {
     console.log("TODELETE : ", key);
     setOptionlabels((preval) => {
@@ -39,17 +45,20 @@ function AddElement(props) {
   };
 
   const handleChange = () => {};
-  const handleImageupload = (e) => {
-    const file = e.target.files[0];
-    console.log("WORKING");
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setImage(reader.result);
-    };
-  };
+
+  // const handleImageupload = (e) => {
+  //   const file = e.target.files[0];
+  //   console.log("WORKING");
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onload = () => {
+  //     setImage(reader.result);
+  //   };
+  // };
+
   return (
     <Card
+
       style={{
         paddingTop: "2rem",
         marginBottom: "2rem",
@@ -61,6 +70,7 @@ function AddElement(props) {
         boxShadow: focused ? "2px 2px 4px #424242" : "none",
         transition: "all .1s ease-in-out",
       }}
+      className="md-10"
     >
       <Form
         onSubmit={handleChange}
@@ -73,39 +83,37 @@ function AddElement(props) {
           console.log("BLUR");
         }}
       >
-        <Container className="d-flex">
-          <FormGroup style={{ width: "80%" }}>
+        <Container className="d-flex justify-content-around">
+          <FormGroup style={{ width: "80%", margin: "0 0.25rem" }}>
             <FormControl
-            size='lg'
-              style={{ border: "none"}}
+              size="lg"
+              className="shadow-none"
+              id="ques"
               type="text"
               placeholder="Question"
+              onChange={(e) => {
+                setQuestion(e.target.value);
+              }}
+              value={question}
             />
           </FormGroup>
           {/* <FormGroup onChange={handleImageupload}>
-            <FormControl type="file" />
-          </FormGroup> */}
-          <label htmlFor="icon-button-file">
-            <Input
-              accept="image/*"
-              id="icon-button-file"
+            <Form.Label>
+              <CameraIcon />
+            </Form.Label>
+            <FormControl
+              style={{ display: "none" }}
+              className="imageSelect"
               type="file"
-              onChange={handleImageupload}
-            />
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="span"
-            >
-              <PhotoCamera />
-            </IconButton>
-          </label>
-          <FormGroup>
+            ></FormControl>
+          </FormGroup> */}
+          <FormGroup >
             <Form.Group>
               <Form.Select
                 type="text"
                 placeholder="Search"
                 onChange={(e) => setDropdownselected(e.target.value)}
+                defaultValue={dropdownselected}
               >
                 <option value="1">Multpile Choice</option>
                 <option value="2">Checkbox</option>
@@ -115,14 +123,35 @@ function AddElement(props) {
           </FormGroup>
         </Container>
         {image.length ? (
-          <Image src={image} fluid style={{ height: "20vh", margin: "2% 5%" }}></Image>
+          <div>
+            <Image
+              src={image}
+              fluid
+              style={{ height: "20vh", margin: "2% 5%" }}
+            ></Image>
+            <Button
+              variant="outline-danger"
+              style={{ padding: "0" }}
+              onClick={() => setImage()}
+            >
+              X
+            </Button>
+          </div>
         ) : null}
-        <FormGroup>
+        <OptionsViewer
+          type={dropdownselected}
+          optionlabels={optionlabels}
+          setOptionlabels={setOptionlabels}
+          deleterow={deleterow}
+          canchange={true}
+          />
+          {/* <FormGroup>
           {(dropdownselected === "1" || dropdownselected === "2") &&
             optionlabels.map((opt, idx) => {
               return (
                 <Options
                   option={opt}
+                  canchange
                   changeHandler={setOptionlabels}
                   keyval={idx}
                   type={dropdownselected}
@@ -131,14 +160,15 @@ function AddElement(props) {
               );
             })}
           {dropdownselected === "3" && <Paragraph />}
-        </FormGroup>
+        </FormGroup> */}
         <Container
           variant="bottom"
-          className="d-flex flex-row-reverse bd-highlight mb-3"
+          className="d-flex flex-row-reverse bd-highlight"
         >
           {dropdownselected === "1" || dropdownselected === "2" ? (
             <Button
               variant="primary"
+              style={{ marginRight: "1rem", marginBottom: "1rem" }}
               onClick={(e) => {
                 e.preventDefault();
                 setOptionlabels((prev) => {

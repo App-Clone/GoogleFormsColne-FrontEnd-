@@ -6,11 +6,11 @@ function Paragraph({ changeHandler, keyval, type, deleterow }) {
     <Container>
       <FormGroup className="d-flex m-4 p-2">
         <TextField
-          fullWidth
           id="standard-basic"
           variant="standard"
-          placeholder="Long answer text"
+          placeholder="Response"
           disabled
+          style={{transform: 'translateX(-2%)', width: '80%'}}
         />
       </FormGroup>
     </Container>
