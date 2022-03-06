@@ -2,18 +2,20 @@ import { Form, Container, FormGroup, Button, FormControl } from "react-bootstrap
 import { useState, useEffect } from "react";
 
 function Options({
+  name,
   option,
   changeHandler,
   keyval,
   type,
   deleterow,
   canchange,
+  valueSelector,
+  islive,
 }) {
   const [optionlabel, setOptionLabel] = useState(option);
   useEffect(() => {
     setOptionLabel(option);
   }, [option]);
-  console.log("OPTIONLABEL : ", optionlabel);
   const changehandler = (e) => {
     setOptionLabel(e.target.value);
     changeHandler((preval) => {
@@ -28,8 +30,12 @@ function Options({
           type={type === "2" ? "checkbox" : "radio"}
           placeholder=""
           label={canchange ? "" : optionlabel}
+          name={type === "1" ? name : undefined}
+          onChange={(e) => {
+            valueSelector(e.target.checked, keyval);
+          }}
           disabled={canchange}
-        />
+        /> 
         {canchange && (
           <FormControl
             className="shadow-none"
@@ -38,7 +44,6 @@ function Options({
             style={{ width: '80.5%'}}
             placeholder="Option-New"
             value={optionlabel}
-            name="groupOptions"
             onChange={changehandler}
           />
         )}

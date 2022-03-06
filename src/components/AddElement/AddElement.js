@@ -7,21 +7,12 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Switch from "@mui/material/Switch";
 import OptionsViewer from "../OptionsViewer/OptionsViewer";
 import './index.css';
 
-// import IconButton from "@mui/material/IconButton";
-// import CameraIcon from "@mui/icons-material/Camera";
-// import { styled } from "@mui/material/styles";
-
-// const Input = styled("input")({
-//   display: "none",
-// });
-
 function AddElement(props) {
-  // const [details, setDetails] = useState([]);
   const [dropdownselected, setDropdownselected] = useState(
     props.type ? props.type : "1"
   );
@@ -32,9 +23,6 @@ function AddElement(props) {
   const [optionlabels, setOptionlabels] = useState(
     props.options ? props.options : ["Option-1", "Option-2", "Option-3"]
   );
-  // const [multiOptionlabels, setMultiOptionlabels] = useState(
-  //   props.options ? props.options : ["Option-1", "Option-2", "Option-3"]
-  // );
   const [focused, setFocused] = useState(false);
   const label = { inputProps: { "aria-label": "Required" } };
   const deleterow = (key) => {
@@ -44,21 +32,21 @@ function AddElement(props) {
     });
   };
 
-  const handleChange = () => {};
-
-  // const handleImageupload = (e) => {
-  //   const file = e.target.files[0];
-  //   console.log("WORKING");
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onload = () => {
-  //     setImage(reader.result);
-  //   };
-  // };
+  useEffect(() => {
+    dropdownselected === '3' ? props.setData({
+      type: dropdownselected,
+      question: question,
+      image: image,
+    }, props.idx) : props.setData({
+      type: dropdownselected,
+      question: question,
+      options: optionlabels,
+      // image: image,
+    }, props.idx);
+  }, [dropdownselected, question, optionlabels, image, props]);
 
   return (
     <Card
-
       style={{
         paddingTop: "2rem",
         marginBottom: "2rem",
@@ -73,7 +61,6 @@ function AddElement(props) {
       className="md-10"
     >
       <Form
-        onSubmit={handleChange}
         onFocus={() => {
           console.log("FOCUSED");
           setFocused(true);
@@ -97,16 +84,6 @@ function AddElement(props) {
               value={question}
             />
           </FormGroup>
-          {/* <FormGroup onChange={handleImageupload}>
-            <Form.Label>
-              <CameraIcon />
-            </Form.Label>
-            <FormControl
-              style={{ display: "none" }}
-              className="imageSelect"
-              type="file"
-            ></FormControl>
-          </FormGroup> */}
           <FormGroup >
             <Form.Group>
               <Form.Select

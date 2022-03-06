@@ -1,29 +1,23 @@
-import { Container } from "react-bootstrap";
-import Submit from "./components/Submit/Submit";
-import Header from "./components/Header/Header";
-import AddElement from "./components/AddElement/AddElement";
-import AddQues from "./components/AddQues/AddQues";
-import FormElementPreview from "./components/FormElementPreview/FormElementPreview";
+import Base from "./components/Base/Base";
+import FillForm from "./components/FillForm/FillForm";
+import {
+  BrowserRouter as Router,
+  // Switch,
+  Route,
+  Routes,
+} from "react-router-dom";
+import PageNotFound from "./components/NotFound/PageNotFound";
 
 function App() {
   return (
-    <Container fluid={'lg'}>
-      <Header />
-      <FormElementPreview
-        question={"What do you do?"}
-        options={["Engineering", "Nulla", "Job", "Business", "Terrorist"]}
-        type="2"
-        required
-      />
-      <AddQues />
-      {/* <AddElement
-        question={"What is your name?"}
-        options={["Shubham", "Ayush", "Abhay"]}
-        type={"2"}
-        />
-      <AddElement /> */}
-      <Submit />
-    </Container>
+    <Router>
+      <Routes>
+        <Route path="#" element={<Base />} />
+        <Route path="/" element={<Base />} />
+        <Route exact path="/forms/:formid" element={<FillForm />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </Router>
   );
 }
 

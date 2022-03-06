@@ -1,17 +1,21 @@
+
 // 3.	Click on create/generate a form and a LINK needs to get generated
 // import cryptoRandomString from 'crypto-random-string';
 import { Button, OverlayTrigger, Container, Popover } from "react-bootstrap";
-// import Api from "../Api/Api";
-// import axios from "axios";
+import Api from "../Api/Api";
+import axios from "axios";
 
 // import axios from 'axios';
 
 function Submit({ form }) {
   const create = () => {
-    // axios.post(Api("forms"), form).then((res) => {
-    //   console.log("VOILA");
-    //   navigator.clipboard.writeText(res.data);
-    // });
+    console.log(form)
+    axios.post(Api("forms"), form).then((res) => {
+      console.log("VOILA", res);
+      navigator.clipboard.writeText("http://localhost:3000/forms/"+res.data.id);
+    }).catch(err => {
+      console.log(err);
+    });
   };
 
   const popover = (
