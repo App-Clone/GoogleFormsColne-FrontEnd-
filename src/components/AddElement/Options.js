@@ -11,11 +11,15 @@ function Options({
   canchange,
   valueSelector,
   islive,
+  checked
 }) {
+
   const [optionlabel, setOptionLabel] = useState(option);
+  
   useEffect(() => {
     setOptionLabel(option);
   }, [option]);
+
   const changehandler = (e) => {
     setOptionLabel(e.target.value);
     changeHandler((preval) => {
@@ -23,6 +27,7 @@ function Options({
       return preval;
     });
   };
+  
   return (
     <Container>
       <FormGroup className="d-flex m-1 p-2">
@@ -31,9 +36,8 @@ function Options({
           placeholder=""
           label={canchange ? "" : optionlabel}
           name={type === "1" ? name : undefined}
-          onChange={(e) => {
-            valueSelector(e.target.checked, keyval);
-          }}
+          checked={type === "1" ? checked : undefined}
+          onChange={() => {valueSelector(keyval)}}
           disabled={canchange}
         /> 
         {canchange && (
