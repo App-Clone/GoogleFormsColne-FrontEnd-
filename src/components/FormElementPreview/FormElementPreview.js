@@ -2,7 +2,7 @@ import { Card } from "react-bootstrap";
 import Options from "../AddElement/Options";
 import Paragraph from "../AddElement/Paragraph";
 import { useEffect, useState } from "react";
-// http://localhost:3000/forms/40df66ca-c515-4176-b6ff-64296e299eb2
+
 function FormElementPreview(props) {
   // const [optAnswer, setOptAnswer] = useState();
   const [paraAnswer, setParaAnswer] = useState("");

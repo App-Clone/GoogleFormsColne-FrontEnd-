@@ -1,6 +1,6 @@
 import QuestionFormDecider from "../QuestionFormDecider/QuestionFormDecider";
 import { Button } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 //to db quesdata
 
@@ -17,19 +17,26 @@ function AddQues({ setForm }) {
       return prevval.concat({});
     });
   };
+  // useEffect(() => {
+  //   setForm(quesdata);
+  // }, []);
+
   const onButtonClick = () => {
     utilfn().then(() => {
       setForm(quesdata);
     });
-    console.log("active", active);
   };
 
-  const quesdataaccumulator = (data, idx) => {
+  const questionsaver = async (data, idx) => {
     setQuesdata((prevval) => {
       prevval[idx] = data;
       return prevval;
     });
   };
+
+  const quesdataaccumulator = (data, idx) => {
+    questionsaver(data, idx).then(setForm(quesdata));
+  }
   return (
     <div>
       {quesdata.map((ques, index) => {
@@ -44,6 +51,7 @@ function AddQues({ setForm }) {
             quesidx={index}
             key={index}
             quesdataaccumulator={quesdataaccumulator}
+            isPreview={true}
           />
         );
       })}

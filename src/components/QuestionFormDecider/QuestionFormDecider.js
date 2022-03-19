@@ -1,7 +1,7 @@
 import FormElementPreview from "../FormElementPreview/FormElementPreview.js";
 import AddElement from "../AddElement/AddElement.js";
 
-function QuestionFormDecider({question, options, type, required, active, quesidx, quesdataaccumulator, setResponse}) {
+function QuestionFormDecider({question, options, type, required, active, quesidx, quesdataaccumulator, setResponse, isPreview}) {
   return (
     <div>
       {active ? (
@@ -22,6 +22,7 @@ function QuestionFormDecider({question, options, type, required, active, quesidx
           required={required}
           idx={quesidx}
           setResponse={setResponse}
+          isPreview={isPreview}
         />
       )}
     </div>

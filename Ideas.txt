@@ -1,2 +1,21 @@
 --preious question edit
 --only one is in AddElement for rest are in preview form
+
+
+---
+
+https://javascript.plainenglish.io/data-fetching-with-react-query-axios-257a95c86e77
+
+1 - setTimeoutRefresh
+2 - questions:
+        - make json from states
+        - store in mongo
+        - generate link
+        - send link to user
+        - user can click link to see results
+        - Home Page change
+        - prev forms saved can be edited
+        - delete forms
+        - remove questions
+        - editable
+        - responses json
